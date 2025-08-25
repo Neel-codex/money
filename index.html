@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Receive Pending Confirmation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #27ae60;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .amount {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .amount h2 {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .amount .value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .amount .value span {
+            font-size: 24px;
+            vertical-align: super;
+            margin-right: 5px;
+        }
+        
+        .deadline {
+            background: #e8f5e9;
+            border: 1px dashed #4caf50;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .deadline h3 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .deadline h3 i {
+            margin-right: 10px;
+        }
+        
+        .deadline p {
+            color: #388e3c;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .countdown {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .countdown h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .countdown-unit {
+            background: #ffecb3;
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 60px;
+        }
+        
+        .countdown-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e65100;
+        }
+        
+        .countdown-label {
+            font-size: 12px;
+            color: #f57c00;
+            text-transform: uppercase;
+        }
+        
+        .details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaecef;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .detail-item .label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        .detail-item .value {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .status i {
+            margin-right: 10px;
+        }
+        
+        .wire-transfer-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        
+        .wire-transfer-note h4 {
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .wire-transfer-note h4 i {
+            margin-right: 10px;
+        }
+        
+        .wire-transfer-note p {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #219653;
+        }
+        
+        .btn-secondary {
+            background: #eaecef;
+            color: #2c3e50;
+        }
+        
+        .btn-secondary:hover {
+            background: #d5d8dc;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eaecef;
+        }
+        
+        @media (max-width: 500px) {
+            .actions {
+                flex-direction: column;
+            }
+            
+            .amount .value {
+                font-size: 36px;
+            }
+            
+            .countdown-timer {
+                gap: 8px;
+            }
+            
+            .countdown-unit {
+                min-width: 50px;
+                padding: 8px;
+            }
+            
+            .countdown-value {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Payment Receive Pending</h1>
+            <p>Confirmation expected by today 6:00 PM</p>
+        </div>
+        
+        <div class="content">
+            <div class="amount">
+                <h2>Amount to be Received</h2>
+                <div class="value"><span>₹</span>20,000.00</div>
+            </div>
+            
+            <div class="deadline">
+                <h3><i class="fas fa-clock"></i> Confirmation Deadline</h3>
+                <p>Today, 6:00 PM</p>
+            </div>
+            
+            <div class="countdown">
+                <h3>Time Remaining</h3>
+                <div class="countdown-timer">
+                    <div class="countdown-unit">
+                        <div class="countdown-value" id="hours">06</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-unit">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-unit">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="status">
+                <i class="fas fa-hourglass-half"></i>
+                Awaiting Payment Confirmation - Wire Transfer
+            </div>
+            
+            <div class="wire-transfer-note">
+                <h4><i class="fas fa-info-circle"></i> International Wire Transfer</h4>
+                <p>Wire transfers from international senders may take additional time to process. Please allow 1-2 business days for international transfers to be confirmed in your account.</p>
+            </div>
+            
+            <div class="details">
+                <div class="detail-item">
+                    <div class="label">Transaction ID</div>
+                    <div class="value">#IN2023120567</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Initiated On</div>
+                    <div class="value" id="current-date"></div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Payment Method</div>
+                    <div class="value">Wire Transfer</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Sender</div>
+                    <div class="value">QupLab LTD Dubai</div>
+                </div>
+                <div class="detail-item">
+                    <div class="label">Reference Number</div>
+                    <div class="value">QPL/DXB/2023/0876</div>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-primary">
+                    <i class="fas fa-check-circle"></i> Confirm Receipt
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-question-circle"></i> Contact Support
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Wire transfer from QupLab LTD Dubai will be automatically confirmed after processing.</p>
+            <p>© 2025 Payment Gateway. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = now.toLocaleDateString('en-IN', options);
+        
+        // Countdown timer to 6:00 PM today
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(18, 0, 0, 0); // 6:00 PM
+            
+            // If it's already past 6 PM, set target to next day
+            if (now > target) {
+                target.setDate(target.getDate() + 1);
+            }
+            
+            const diff = target - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Initial update
+        updateCountdown();
+        
+        // Update every second
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
